@@ -1,0 +1,353 @@
+﻿@page "/"
+<style>
+    
+    .input-container {
+        position: relative;
+        display: inline-block;
+        width: 400px;
+        text-align:right;
+    }
+
+        .input-container input {
+            width: 50%;
+            padding: 10px 35px; /* Add padding to make space for the icon */
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .input-container .search-icon {
+            position: relative;
+            left: 30px; /* Position icon inside the input field */
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 16px;
+        }
+        
+    thead {
+        border-top: thin solid;
+        border-color: lightgray;
+    }
+
+    .custom-table th,
+    .custom-table td {
+        border: none; /* Removes borders around table cells */
+    }
+
+    .custom-table {
+        border-spacing: 0 10px; /* Adds vertical spacing of 10px between rows */
+        border-collapse: separate; /* Ensures spacing works */
+    }
+
+        .custom-table tbody tr {
+            background-color: #f9f9f9; /* Light gray background for rows */
+        }
+
+
+    .custom-table th {
+        vertical-align: middle; /* Aligns content in the middle */
+        text-align: left; /* Centers text horizontally */
+    }
+    /* Additional spacing for text inside rows */
+    .custom-table td,
+    .custom-table th {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+        .img-fluid{
+            height:100px;
+            width:100px;
+        }
+
+</style>
+
+
+<h1 class="text-primary">Dashboard</h1>
+<h4 class=" text-primary">Dashboard Overview</h4>
+
+<!-- Main Card -->
+<div class="card shadow-sm mt-3" >
+    <div class="card-body">
+        <div class="row">
+            <!-- Left Side: 5 Columns -->
+            <div class="col-md-5">
+                <div class="row">
+                    <!-- Row 1 -->
+                    <div class="col-md-12 d-flex mb-3">
+                        <!-- Image 1 Card -->
+                        <div class="card shadow-sm border-0 mx-3 ">
+                            <img src="Images/building.png" alt="Building"   />
+                        </div>
+                        <!-- Image 2 Card -->
+                        <div class="card shadow-sm border-0">
+                            <img src="Images/partners 1.png" alt="Persons" class="img-fluid mb-2" />
+                            <img src="Images/icon.png" alt="Icon"  />
+                        </div>
+                    </div>
+                    <!-- Row 2 -->
+                    <div class="col-md-12 d-flex">
+                        <!-- Image 3 Card -->
+                        <div class="card shadow-sm border-0  mx-3 ">
+                            <img src="Images/team 1.png" alt="Team" class="img-fluid mb-2 " />
+                            <img src="Images/icon1.png" alt="Icon1"  />
+                        </div>
+                        <!-- Image 4 Card -->
+                        <div class="card shadow-sm border-0 ">
+                            <img src="Images/planning 1.png" alt="Planning" class="img-fluid mb-2" />
+                            <img src="Images/icon3.png" alt="Icon3"  />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 d-flex">
+                        <!--task tracking-->
+
+                        <div class="card shadow-sm mt-3 mx-3">
+                            <div class="card-body ">
+                                <!-- Header Section -->
+                                <div class="d-flex justify-content-between align-items-center mb-3" >
+                                    <h3><b>Task Tracking</b></h3>
+                                    <div class="input-container">
+                                        <i class="bi bi-search search-icon"></i>
+                                        <input type="text" placeholder="Search here...">
+                                    </div>
+                                </div>
+                                <!-- Employee Table -->
+                                <div class="table-responsive">
+                                    <table class="table custom-table ">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <input type="checkbox" />
+                                                </th>
+                                                <th>TASK NAME</th>
+                                                <th>START DATE</th>
+                                                <th>END DATE</th>
+                                                <th>TEAM MEMBER</th>
+                                                <th>STATUS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var task in tasks)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" />
+                                                    </td>
+                                                    <td>@task.taskname</td>
+                                                    <td>@task.startdate</td>
+                                                    <td>@task.enddate</td>
+
+                                                    <td>
+                                                        @if (task.member != null && task.member.Any())
+                                                        {
+                                                            @foreach (var member in task.member)
+                                                            {
+                                                                <img src="@member" alt="Profile" class="img-circle me-1" width="30" height="30" />
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>No members available</span>
+                                                        }
+
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge @(task.Status == "Active" ? "text-success bg-secondary-subtle" : "text-danger bg-secondary-subtle")">@task.Status</span>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+                        <!-- Right Side: 7 Columns -->
+            <div class="col-md-7 ">
+                <!-- Projects Section -->
+                <div class="card shadow-sm mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h3><b>Projects</b></h3>
+                            <div class="input-container">
+                                <i class="bi bi-search search-icon"></i>
+                                <input type="text" placeholder="Search here..." />
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table custom-table">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" /></th>
+                                        <th>PROJECT TITLE</th>
+                                        <th>DEPARTMENT</th>
+                                        <th>TEAM</th>
+                                        <th>STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var project in projects)
+                                    {
+                                        <tr>
+                                            <td><input type="checkbox" /></td>
+                                            <td>@project.Title</td>
+                                            <td>@project.Department</td>
+                                            <td>@project.Team</td>
+                                            <td>
+                                                <span class="badge @(project.Status == "Active" ? "text-success bg-secondary-subtle" : "text-danger bg-secondary-subtle")">
+                                                    @project.Status
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!--teams-->
+
+
+                <div class="card shadow-sm mt-3 mx-3 mb-3">
+                    <div class="card-body">
+                        <!-- Header Section -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h3><b>Teams</b></h3>
+
+                            <div class="input-container">
+                                <i class="bi bi-search search-icon"></i>
+                                <input type="text" placeholder="Search here...">
+                            </div>
+                        </div>
+                        <!-- Employee Table -->
+                        <div class="table-responsive">
+                            <table class="table custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox" />
+                                        </th>
+                                        <th>TEAM NAME</th>
+                                        <th>TEAM LEAD</th>
+                                        <th>TEAM MEMBER</th>
+                                        <th>STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var team in teams)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" />
+                                            </td>
+                                            <td>
+                                                @team.Name
+                                            </td>
+                                            <td>@team.Lead</td>
+                                            <td>
+                                                @if (team.Member != null && team.Member.Any())
+                                                {
+                                                    @foreach (var member in team.Member)
+                                                    {
+                                                        <img src="@member" alt="Profile" class="img-circle me-1" width="30" height="30" />
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span>No members available</span>
+                                                }
+
+                                            </td>
+                                            <td>
+                                                <span class="badge @(team.Status == "Active" ? "text-success bg-secondary-subtle" : "text-danger bg-secondary-subtle")">@team.Status</span>
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+@code {
+    // Sample data for demonstration
+    private List<Project> projects = new List<Project>
+    {
+        new Project { Title = "Task 1", Department = "Software", Team = ".Net",  Status = "Active" },
+        new Project { Title = "Task 2", Department = "Graphic", Team = "UI/UX",Status= "Active"},
+        new Project { Title = "Task 3", Department = "Software", Team = ".Net",Status= "Active" },
+        new Project { Title = "Task 4", Department = "Graphic", Team = "Wordpress",Status= "Inactive" },
+
+    };
+
+    private class Project
+    {
+        public string Title { get; set; }
+        public string Department { get; set; }
+        public string Team { get; set; }
+        public string Status { get; set; }
+
+
+    }
+        private List<task> tasks = new List<task>
+    {
+    new task {  taskname = "Task 1", startdate = "02-02-2025", enddate ="10-02-2025", member = new List<string> { "Images/emg.png", "Images/emg.png","Images/img1.jpeg","Images/img1.jpeg" }, Status = "Active" },
+    new task { taskname= "Task 2",  startdate = "02-02-2025", enddate ="10-02-2025" ,member = new List<string> { "Images/emg.png", "Images/emg.png","Images/img1.jpeg","Images/img1.jpeg" },Status= "Active"},
+    new task {  taskname = "Task 3", startdate = "02-02-2025", enddate = "10-02-2025",member = new List<string> { "Images/emg.png", "Images/emg.png","Images/img1.jpeg","Images/img1.jpeg" },Status= "Active" },
+    new task {  taskname = "Task 4", startdate = "02-02-2025", enddate ="10-02-2025",member = new List<string> { "Images/emg.png", "Images/emg.png","Images/img1.jpeg","Images/img1.jpeg" },Status= "Inactive" },
+
+    };
+
+        private class task
+        {
+            public string taskname { get; set; }
+            public string startdate { get; set; }
+            public string enddate { get; set; }
+            public List<string> member { get; set; } = new List<string>();
+            public string Status { get; set; }
+
+
+        }
+    // Sample data for demonstration
+    private List<Team> teams = new List<Team>
+    {
+        new Team { Name = ".Net Developer",  Lead= "Waqas Tahir", Member = new List<string> { "Images/emg.png", "Images/emg.png","Images/img1.jpeg","Images/img1.jpeg" }, Status = "Active"},
+        new Team { Name = "UI/UX Designer", Lead = "Umair Shahzad", Member = new List<string> { "Images/emg.png", "Images/emg.png","Images/img1.jpeg" }, Status = "Active" },
+        new Team { Name = "Graphic Designer",  Lead = "Obaid Khan", Member = new List<string> { "Images/emg.png", "Images/emg.png","Images/img1.jpeg","Images/img1.jpeg" }, Status = "Active"},
+        new Team { Name = "Wordpress",  Lead = "Waqas Tahir", Member = new List<string> { "Images/emg.png", "Images/emg.png","Images/img1.jpeg" }, Status = "Inactive" },
+    };
+    private class Team
+    {
+        public string Name { get; set; }
+        public List<string> Member { get; set; } = new List<string>();
+        public string Lead { get; set; }
+        public string Status { get; set; }
+
+    }
+
+}
+
+
+
+

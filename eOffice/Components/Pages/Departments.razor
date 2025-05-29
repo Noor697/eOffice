@@ -1,0 +1,328 @@
+﻿@page "/Departments"
+
+<style>
+
+    .bi {
+        line-height: 0;
+    }
+    /* Light shadow effect for the card */
+    .card {
+        border: 1px #e6e6e6; /* Light card border */
+        border-radius: 8px; /* Smooth rounded edges */
+    }
+
+    thead {
+        border-top: thin solid;
+        border-color: lightgray;
+    }
+
+    .custom-table th,
+    .custom-table td {
+        border: none; /* Removes borders around table cells */
+    }
+
+    .custom-table {
+        border-spacing: 0 10px; /* Adds vertical spacing of 10px between rows */
+        border-collapse: separate; /* Ensures spacing works */
+    }
+
+        .custom-table tbody tr {
+            background-color: #f9f9f9; /* Light gray background for rows */
+        }
+
+
+    .custom-table th {
+        vertical-align: middle; /* Aligns content in the middle */
+        text-align: left; /* Centers text horizontally */
+    }
+    /* Additional spacing for text inside rows */
+    .custom-table td,
+    .custom-table th {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    .form-control {
+        font-size: 12px;
+    }
+
+    .form-select {
+        color: dimgrey;
+        font-size: 12px;
+    }
+
+    .slide-right .modal-dialog {
+        position: fixed;
+        margin: auto;
+        width: 400px;
+        height: 100vh;
+        right: 0px;
+        border-radius: 12px;
+        transition: transform 0.2s ease-in-out; /* Smooth slide-in effect */
+    }
+    .modal-content{
+        height:100%
+    }
+
+
+    .slide-right.show .modal-dialog {
+        transform: translateX(0);
+        right: 0; /* Fully visible */
+    }
+
+    .modal-header {
+        border-bottom: none;
+    }
+
+    .input-container {
+        position: relative;
+        display: inline-block;
+        width: 400px;
+    }
+
+        .input-container input {
+            width: 100%;
+            padding: 10px 35px; /* Add padding to make space for the icon */
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .input-container .search-icon {
+            position: absolute;
+            left: 10px; /* Position icon inside the input field */
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 16px;
+        }
+
+
+
+</style>
+
+<div class="text-primary">
+    <h2>Configuration List</h2>
+    <h5>Configuration<span class="bi bi-arrow-right"></span><b>Department</b></h5>
+</div>
+<div class="card shadow-sm mt-3">
+    <div class="card-body">
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="input-container">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" placeholder="Search here...">
+            </div>
+
+
+            <!--Modal button-->
+        <!-- Add New Button -->
+            <button class="btn btn-primary" style="width:150px;" data-bs-toggle="modal" data-bs-target="#addUserModal">
+            Add New
+        </button>
+
+        <!-- Modal Structure -->
+        <div class="modal fade slide-right" id="addUserModal" aria-labelledby="addUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <!--header-->
+                    <div class="modal-header">
+                        <h6 class="modal-title text-primary" id="addUserModalLabel">Add new department</h6>
+                        <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      
+
+                        <!-- Form Fields -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Department Name</label>
+                            <input type="text" id="name" class="form-control" placeholder="Lorem Ipsum" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Department Head</label>
+                            <select id="role" class="form-select">
+                                <option selected>Select</option>
+                                <option value="1"> Sir Umair</option>
+                                <option value="2">Sir Wajahat</option>
+                                <option value="3">Sir Amir</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                            <input type="tel" id="phoneNumber" class="form-control" placeholder="+92**********" />
+                        </div>
+                        <div class="mb-3 float-end">
+                        <button type="button" class="btn border" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary">Add Department</button>
+                        </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+        <!-- Employee Table -->
+        <div class="table-responsive">
+            <table class="table custom-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" />
+                        </th>
+                        <th>DEPARTMENT NAME</th>
+                        <th>DEPARTMENT HEAD</th>
+                        <th>PHONE NO</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var department in departments)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" />
+                            </td>
+                            <td>@department.Name</td>
+                            <td>@department.Head</td>
+                            <td>@department.Phone</td>
+                            <td>
+                                <span class="badge @(department.Status == "Active" ? "text-success bg-secondary-subtle" : "text-danger bg-secondary-subtle")">@department.Status</span>
+                            </td>
+
+                            <td>
+                                <!--View Button-->
+                                <!--view modal-->
+                                <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#viewUserModal"><i class="bi bi-eye"></i></button>
+                                <div class="modal fade slide-right" id="viewUserModal" aria-labelledby="viewUserModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog ">
+                                        <div class="modal-content">
+                                            <!--header-->
+                                            <div class="modal-header">
+                                                <h6 class="modal-title text-primary" id="addUserModalLabel">View department</h6>
+                                                <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="col-12 d-flex bg-light justify-content-between p-2 align-items-center">
+                                                    <h6>Department Name:</h6>
+                                                    <h6>Software Developement</h6>
+                                                </div>
+                                                <br />
+                                                <div class="col-12 d-flex  bg-light justify-content-between p-2 align-items-center">
+                                                    <h6>Department Head:</h6>
+                                                    <h6>Atif Javed</h6>
+                                                </div>
+                                                <br />
+
+                                                <div class="col-12 d-flex bg-light justify-content-between p-2 align-items-center">
+                                                    <h6>Phone Number:</h6>
+                                                    <h6>+9235674876</h6>
+                                                </div>
+                                                <br />
+
+                                                <div class="col-12 d-flex  bg-light justify-content-between p-2 align-items-center">
+                                                    <h6>Status:</h6>
+                                                    <h6>Active</h6>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!--Edit department-->
+                                <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editUserModal"><i class="bi bi-pencil"></i></button>
+
+                                <div class="modal fade slide-right" id="editUserModal" aria-labelledby="editUserModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog ">
+                                        <div class="modal-content">
+                                            <!--header-->
+                                            <div class="modal-header">
+                                                <h6 class="modal-title text-primary" id="addUserModalLabel">Edit department</h6>
+                                                <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Form Fields -->
+                                                <div class="mb-3">
+                                                    <label for="name" class="form-label">Department Name</label>
+                                                    <input type="text" id="name" class="form-control" placeholder="Lorem Ipsum" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="role" class="form-label">Department Head</label>
+                                                    <select id="role" class="form-select">
+                                                        <option selected>Select</option>
+                                                        <option value="1"> Sir Umair</option>
+                                                        <option value="2">Sir Wajahat</option>
+                                                        <option value="3">Sir Amir</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                                                    <input type="tel" id="phoneNumber" class="form-control" placeholder="+92**********" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="role" class="form-label">Status</label>
+                                                    <select id="role" class="form-select">
+                                                        <option selected>Select</option>
+                                                        <option value="1"> Active</option>
+                                                        <option value="2">Inactive</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="mb-3 float-end">
+                                                    <button type="button" class="btn border" data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="button" class="btn btn-primary">Edit Department</button>
+                                                </div>
+
+                                                
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Sample data for demonstration
+    private List<Department> departments = new List<Department>
+    {
+        new Department { Name = "Software Development",  Head = "Waqas Tahir", Phone = "37401279282", Status = "Active"},
+        new Department { Name = "Graphic Designer", Head = "Obaid Khan", Phone = "12628926718", Status = "Active"},
+        new Department { Name = "HR", Head = "Muzzafar", Phone = "09745711617", Status = "Active" },
+        new Department { Name = "Finance",  Head = "Nouman", Phone = "12348954012", Status = "Inactive" },
+        new Department { Name = "HR",  Head = "Umair Shahzad", Phone = "12098765417", Status = "Active" },
+        new Department { Name = "Accounts", Head = "Nouman", Phone = "12098765417", Status = "Active" }
+
+    };
+
+    private class Department
+    {
+        public string Name { get; set; }
+        public string Head { get; set; }
+        public string Phone { get; set; }
+        public string Status { get; set; }
+        public string Action { get; set; }
+    }
+}
+
+
+

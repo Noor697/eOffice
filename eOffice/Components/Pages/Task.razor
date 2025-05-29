@@ -1,0 +1,422 @@
+﻿@page "/Task"
+
+<style>
+
+    .bi {
+        line-height: 0;
+    }
+    /* Light shadow effect for the card */
+    .card {
+        border: 1px #e6e6e6; /* Light card border */
+        border-radius: 8px; /* Smooth rounded edges */
+    }
+
+    thead {
+        border-top: thin solid;
+        border-color: lightgray;
+    }
+
+    .custom-table th,
+    .custom-table td {
+        border: none; /* Removes borders around table cells */
+    }
+    .custom-table{
+        border-spacing: 0 10px; /* Adds vertical spacing of 10px between rows */
+        border-collapse: separate; /* Ensures spacing works */
+    }
+
+        .custom-table tbody tr {
+            background-color: #f9f9f9; /* Light gray background for rows */
+        }
+
+
+    .custom-table th {
+        vertical-align: middle; /* Aligns content in the middle */
+        text-align: left; /* Centers text horizontally */
+    }
+    /* Additional spacing for text inside rows */
+    .custom-table td,
+    .custom-table th {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    .form-control {
+        font-size: 12px;
+    }
+
+    .form-select {
+        color: dimgrey;
+        font-size: 12px;
+    }
+
+    .slide-right .modal-dialog {
+        position: fixed;
+        margin: 0px;
+        width: 400px;
+        height: 100vh;
+        right: 0px;
+        border-radius: 12px;
+        transition: transform 0.2s ease-in-out; /* Smooth slide-in effect */
+    }
+
+    .slide-right.show .modal-dialog {
+        transform: translateX(0);
+        right: 0; /* Fully visible */
+    }
+
+    .modal-content {
+        height: 100%;
+    }
+
+    .modal-body {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .modal-header {
+        border-bottom: none;
+    }
+
+    .modal-footer {
+        border-top: none;
+    }
+
+    .input-container {
+        position: relative;
+        display: inline-block;
+        width: 400px;
+    }
+
+        .input-container input {
+            width: 100%;
+            padding: 10px 35px; /* Add padding to make space for the icon */
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .input-container .search-icon {
+            position: absolute;
+            left: 10px; /* Position icon inside the input field */
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 16px;
+        }
+
+</style>
+
+<div class="text-primary">
+    <h2>Task List</h2>
+    <h5>Project<span class="bi bi-arrow-right"></span><b>Task</b></h5>
+</div>
+<div class="card shadow-sm mt-3">
+    <div class="card-body">
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="input-container">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" placeholder="Search here...">
+            </div>
+            <!--Modal button-->
+            <!-- Add New Button -->
+            <button class="btn btn-primary" style="width:150px;" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                Add New
+            </button>
+
+            <!-- Modal Structure -->
+            <div class="modal fade slide-right" id="addUserModal" aria-labelledby="addUserModalLabel" aria-hidden="true">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <!--header-->
+                        <div class="modal-header">
+                            <h6 class="modal-title text-primary" id="addUserModalLabel">Add new task</h6>
+                            <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <!-- Form Fields -->
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Project Title</label>
+                                <input type="text" id="name" class="form-control" placeholder="Project 1" />
+                            </div>
+                            <div class="mb-3" >
+                                <label for="name" class="form-label">Task Name</label>
+                                <input type="text" id="name" class="form-control" placeholder="Title" />
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="col-md-5">
+                                    <label for="StartDate" class="form-label">Start Date</label>
+                                    <input type="date" id="StartDate" class="form-control" placeholder="MM/DD/YYYY" />
+                                </div>
+                                <div class="col-md-5">
+                                    <label for="DueDate" class="form-label">Due Date</label>
+                                    <input type="date" id="DueDate" class="form-control " placeholder="MM/DD/YYYY" />
+                                </div>
+                            </div>
+                            <div class="mb-3 d-flex flex-grow-1 align-items-center justify-content-between">
+                                <div class="col-md-5">
+                                    <label for="role" class="form-label">Team </label>
+                                    <select id="role" class="form-select">
+                                        <option selected>Select</option>
+                                        <option value="1">Graphics</option>
+                                        <option value="2">Software</option>
+                                        <option value="3">HR</option>
+                                    </select>
+                                </div>
+                                <div class=" col-md-5">
+                                    <label for="role" class="form-label">Assign To</label>
+                                    <select id="role" class="form-select">
+                                        <option selected>Select</option>
+                                        <option value="1">3</option>
+                                        <option value="2">4</option>
+                                        <option value="3">5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Task Description</label>
+                                <textarea id="name" class="form-control" rows="6" cols="10" placeholder="Add Description"></textarea>
+                            </div>
+                            <!-- Upload Image Section -->
+                            <div class="bg-light container p-4 text-center">
+                                <h6>Upload your file here</h6>
+                                <label for="uploadfile" class="form-label">
+                                    <div class="bg-primary p-1  text-white" style="border-radius:3px;">
+                                        <span>Upload File</span>
+                                        <i class="bi bi-plus"></i>
+                                    </div>
+                                </label>
+                                <input type="file" id="uploadfile" class="form-control d-none" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn border" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        
+        <!-- Employee Table -->
+        <div class="table-responsive">
+            <table class="table custom-table ">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" />
+                        </th>
+                        <th>SUBJECT</th>
+                        <th>TEAM</th>
+                        <th>ASSIGN TO</th>
+                        <th>PROJECT TITLE</th>
+                        <th>START DATE</th>
+                        <th>DUE DATE</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var task in tasks)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" />
+                            </td>
+                            <td>@task.Subject</td>
+                            <td>@task.Team</td>
+                            <td>@task.Assignto</td>
+                            <td>
+                                @task.Title
+                            </td>
+                            <td>@task.Startdate</td>
+                            <td>@task.Duedate</td>
+                            <td>
+                                <span class="badge @(task.Status == "Active" ? "text-success bg-secondary-subtle" : "text-danger bg-secondary-subtle")">@task.Status</span>
+                            </td>
+                            <td>
+                                <!--View Button-->
+                                <!--view modal-->
+                                <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#viewUserModal"><i class="bi bi-eye"></i></button>
+                                <div class="modal fade slide-right" id="viewUserModal" aria-labelledby="viewUserModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog ">
+                                        <div class="modal-content">
+                                            <!--header-->
+                                            <div class="modal-header">
+                                                <h6 class="modal-title text-primary" id="addUserModalLabel">View task</h6>
+                                                <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div>
+                                                <button type="button" class="btn btn-group-lg me-3 text-danger border-0 bg-danger-subtle float-end">Active</button>
+
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <!-- Form Fields -->
+                                                <div class="mb-3">
+                                                    <label for="name" class="form-label">Project Title</label>
+                                                    <input type="text" id="name" class="form-control" placeholder="Project 1" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="name" class="form-label">Subject</label>
+                                                    <input type="text" id="name" class="form-control" placeholder="Task 1" />
+                                                </div>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <div class="col-md-5">
+                                                        <label for="StartDate" class="form-label">Start Date</label>
+                                                        <input type="text" id="StartDate" class="form-control" placeholder="01/02/25" />
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <label for="DueDate" class="form-label">Due Date</label>
+                                                        <input type="text" id="DueDate" class="form-control " placeholder="01/02/25" />
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 d-flex flex-grow-1 align-items-center justify-content-between">
+                                                    <div class="col-md-5">
+                                                        <label for="role" class="form-label">Team </label>
+                                                        <input type="text" id="name" class="form-control" placeholder="Software Developer" />
+
+                                                    </div>
+                                                    <div class=" col-md-5">
+                                                        <label for="role" class="form-label">Assign To</label>
+                                                        <input type="text" id="name" class="form-control" placeholder=".Net" />
+
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="name" class="form-label">Task Description</label>
+                                                    <textarea id="name" class="form-control" placeholder="Develop the rest api's "></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+
+                                    </div>
+
+
+                                <!--edit modal button -->
+                                <button class="btn btn-sm btn-outline-secondary" data-bs-target="#editUserModal" data-bs-toggle="modal"><i class="bi bi-pencil"></i></button>
+                                 <!-- Modal Structure -->
+                <div class="modal fade slide-right" id="editUserModal" aria-labelledby="editUserModalLabel" aria-hidden="true">
+                    <div class="modal-dialog ">
+                        <div class="modal-content">
+                            <!--header-->
+                            <div class="modal-header">
+                                <h6 class="modal-title text-primary" id="editUserModalLabel">Edit task</h6>
+                                <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <!-- Form Fields -->
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Project Title</label>
+                                    <input type="text" id="name" class="form-control" placeholder="Project 1" />
+                                </div>
+                                <div class="mb-3" >
+                                    <label for="name" class="form-label">Subject</label>
+                                    <input type="text" id="name" class="form-control" placeholder="Title" />
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="col-md-5">
+                                        <label for="StartDate" class="form-label">Start Date</label>
+                                        <input type="date" id="StartDate" class="form-control" placeholder="MM/DD/YYYY" />
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label for="DueDate" class="form-label">Due Date</label>
+                                        <input type="date" id="DueDate" class="form-control " placeholder="MM/DD/YYYY" />
+                                    </div>
+                                </div>
+                                <div class="mb-3 d-flex flex-grow-1 align-items-center justify-content-between">
+                                    <div class="col-md-5">
+                                        <label for="role" class="form-label">Team </label>
+                                        <select id="role" class="form-select">
+                                            <option selected>Select</option>
+                                            <option value="1">Graphics</option>
+                                            <option value="2">Software</option>
+                                            <option value="3">HR</option>
+                                        </select>
+                                    </div>
+                                    <div class=" col-md-5">
+                                        <label for="role" class="form-label">Assign To</label>
+                                        <select id="role" class="form-select">
+                                            <option selected>Select</option>
+                                            <option value="1">Atif Javed</option>
+                                            <option value="2">Hamza</option>
+                                            <option value="3">Umair</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Task Description</label>
+                                    <textarea id="name" class="form-control" rows="6" cols="10" placeholder="Add Description"></textarea>
+                                </div>
+                                               <div class="mb-3">
+                                                <label for="role" class="form-label">Status</label>
+                                                <select id="role" class="form-select">
+                                                    <option selected>Select</option>
+                                                    <option value="1"> Active</option>
+                                                    <option value="2">Inactive</option>
+                                                </select>
+                                            </div>
+
+                                </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn border" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                                <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Sample data for demonstration
+    private List<task> tasks = new List<task>
+    {
+        new task { Title = "Project 1", Subject = "Task 1", Team = ".Net",Assignto="Atif Javed", Startdate = "02-02-2025", Duedate ="10-02-2025", Status = "Active" },
+        new task { Title = "Project 2", Subject = "Task 2", Team = "UI/UX",Assignto="Nayab", Startdate = "02-02-2025", Duedate ="10-02-2025" ,Status= "Active"},
+        new task { Title = "Project 3", Subject = "Task 3", Team = ".Net",Assignto="Hamza", Startdate = "02-02-2025", Duedate = "10-02-2025",Status= "Active" },
+        new task { Title = "Project 4", Subject = "Task 4", Team = "Wordpress",Assignto="Farwa", Startdate = "02-02-2025", Duedate ="10-02-2025",Status= "Inactive" },
+        new task { Title = "Project 5", Subject = "Task 5", Team = "Branding",Assignto="Nayab", Startdate = "02-02-2025", Duedate ="10-02-2025",Status= "Active" },
+        new task { Title = "Project 6", Subject = "Task 6", Team = ".Net",Assignto="Atif Javed", Startdate = "02-02-2025", Duedate ="10-02-2025",Status= "Active"}
+
+    };
+
+    private class task
+    {
+        public string Subject { get; set; }
+        public string Team { get; set; }
+        public string Assignto { get; set; }
+        public string Title { get; set; }
+        public string Startdate { get; set; }
+        public string Duedate { get; set; }
+        public string Status { get; set; }
+
+
+    }
+}
+
+
+
+
+
+  
